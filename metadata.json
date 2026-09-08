@@ -1,0 +1,6 @@
+{
+  "name": "Trading Bot SaaS",
+  "description": "Automated Trading Bot SaaS with Firebase Auth and Stripe/Gumroad Subscriptions.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
