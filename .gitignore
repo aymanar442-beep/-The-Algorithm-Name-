@@ -6,3 +6,23 @@ coverage/
 *.log
 .env*
 !.env.example
+
+# Secrets and keys
+*.key
+*.pem
+secrets/
+private_keys/
+credentials.json
+config/secrets.json
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+Thumbs.db
+
+# Production
+.env.production.local
