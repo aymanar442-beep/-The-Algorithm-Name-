@@ -1090,6 +1090,42 @@ const createServer = async () => {
     });
   });
 
+  app.get('/api/news', async (req, res) => {
+    try {
+      const response = await fetch('https://cryptopanic.com/api/v1/posts/?public=true');
+      const data = await response.json();
+      res.json(data.results.slice(0, 5));
+    } catch (e) {
+      res.json([]);
+    }
+  });
+
+  app.get('/api/sentiment', async (req, res) => {
+    try {
+      const response = await fetch('https://api.alternative.me/fng/');
+      const data = await response.json();
+      res.json(data.data[0]);
+    } catch (e) {
+      res.json({ value: 50, value_classification: 'Neutral' });
+    }
+  });
+
+  app.post('/api/telegram/send-alert', async (req, res) => {
+    const { userId, message } = req.body;
+    const user = inMemoryUsers.find(u => u.binanceUid === userId);
+    
+    if (user && user.telegramChatId && bot) {
+      try {
+        await bot.telegram.sendMessage(user.telegramChatId, message, { parse_mode: 'HTML' });
+        res.json({ success: true });
+      } catch (err) {
+        res.status(500).json({ error: 'Failed to send Telegram alert' });
+      }
+    } else {
+      res.status(404).json({ error: 'User or chat ID not found' });
+    }
+  });
+
   if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.join(__dirname, 'dist')));
     app.get('*', (req, res) => {

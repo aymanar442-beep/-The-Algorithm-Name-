@@ -12,6 +12,8 @@ import {
   collection, doc, getDocs, addDoc, updateDoc, deleteDoc, 
   onSnapshot, query, where, serverTimestamp 
 } from 'firebase/firestore';
+import { jsPDF } from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 export interface CryptoHolding {
   id: string;
@@ -30,6 +32,11 @@ export interface CryptoHolding {
 export interface CoinPriceData {
   usd: number;
   usd_24h_change: number;
+}
+
+interface BestHolding {
+  symbol: string;
+  roi: number;
 }
 
 // Popular supported coins mapped to CoinGecko IDs
@@ -198,6 +205,41 @@ export const PortfolioTracker: React.FC<{
 
     return () => clearInterval(interval);
   }, [currentUid]);
+
+  // Telegram Alert Trigger (with spam prevention)
+  const [alertedCoins, setAlertedCoins] = useState<Record<string, boolean>>({});
+
+  useEffect(() => {
+    holdings.forEach(h => {
+        const livePrice = prices[h.coinGeckoId]?.usd || 0;
+        if (livePrice === 0) return;
+        const changePct = ((livePrice - h.buyPrice) / h.buyPrice) * 100;
+        
+        const alertKey = `${h.id}-${Math.floor(changePct / 10)}`;
+        
+        if (Math.abs(changePct) >= 10 && !alertedCoins[alertKey]) {
+            fetch('/api/telegram/send-alert', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    userId: currentUid,
+                    message: `⚠️ تنبيه من محفظتك: عملة ${h.symbol} تغيرت بنسبة ${changePct.toFixed(2)}%!\nالسعر الحالي: $${livePrice.toFixed(2)}`
+                })
+            }).then(() => {
+                setAlertedCoins(prev => ({ ...prev, [alertKey]: true }));
+            }).catch(e => console.error(e));
+        } else if (Math.abs(changePct) < 10) {
+            // Reset alert key if price comes back within range
+            if (alertedCoins[alertKey]) {
+                setAlertedCoins(prev => {
+                    const newState = { ...prev };
+                    delete newState[alertKey];
+                    return newState;
+                });
+            }
+        }
+    });
+  }, [prices, holdings]);
 
   // Handle Form Submission (Add or Update)
   const handleSubmitHolding = async (e: React.FormEvent) => {
@@ -374,12 +416,26 @@ export const PortfolioTracker: React.FC<{
     toast.success('تم تصدير ملف إكسل لمحفظتك بنجاح (جاهز للتحليل والضرائب)');
   };
 
+  const downloadPDFStatement = () => {
+    const doc = new jsPDF();
+    doc.text('Portfolio Statement', 10, 10);
+    // Add logic to generate table of holdings
+    autoTable(doc, {
+      head: [['Symbol', 'Amount', 'Buy Price', 'Live Price', 'Value']],
+      body: holdings.map(h => [h.symbol, h.amount, h.buyPrice, prices[h.coinGeckoId]?.usd || 0, (h.amount * (prices[h.coinGeckoId]?.usd || 0)).toFixed(2)]),
+    });
+    doc.save('portfolio_statement.pdf');
+    toast.success('تم تحميل كشف المحفظة بصيغة PDF');
+  };
+
   // Calculations
   const calculatedMetrics = useMemo(() => {
+    // ... (existing code)
+
     let totalPortfolioValue = 0;
     let totalCostBasis = 0;
     let total24hProfitLossUSD = 0;
-    let bestPerformingHolding: { symbol: string; roi: number } | null = null;
+    let bestPerformingHolding: BestHolding | null = null;
 
     const enrichedHoldings = holdings.map(h => {
       const livePrice = prices[h.coinGeckoId]?.usd || 0;
@@ -420,7 +476,7 @@ export const PortfolioTracker: React.FC<{
       totalRoiPct,
       total24hProfitLossUSD,
       total24hPct,
-      bestPerformingHolding,
+      bestPerformingHolding: bestPerformingHolding as BestHolding | null,
       enrichedHoldings
     };
   }, [holdings, prices]);
@@ -473,6 +529,13 @@ export const PortfolioTracker: React.FC<{
             >
               <FileSpreadsheet className="w-3.5 h-3.5" />
               تصدير إلى Excel
+            </button>
+            <button
+              onClick={downloadPDFStatement}
+              className="px-4 py-2.5 rounded-xl bg-rose-600/20 hover:bg-rose-600/30 text-rose-300 font-bold text-xs flex items-center gap-2 border border-rose-500/40 transition-all shadow-md"
+            >
+              <Download className="w-3.5 h-3.5" />
+              تحميل كشف PDF
             </button>
             <button
               onClick={() => {

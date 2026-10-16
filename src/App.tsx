@@ -18,6 +18,8 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend, LineChart, L
 import { ShaheenPayPalRevolution } from './components/ShaheenPayPalRevolution';
 import { SubscriptionManager } from './components/SubscriptionManager';
 import { PortfolioTracker } from './components/PortfolioTracker';
+import { MarketNews } from './components/MarketNews';
+import { SentimentCard } from './components/SentimentCard';
 import { LanguageSwitcher } from './context/LanguageContext';
 
 const AnimatedNumber = ({ value, prefix = "", suffix = "", decimals = 2 }: { value: number, prefix?: string, suffix?: string, decimals?: number }) => {
@@ -97,7 +99,7 @@ function handleFirestoreError(error: unknown, operationType: OperationType, path
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<'paypal_shaheen' | 'discord_hub' | 'dashboard' | 'market' | 'signals' | 'agencies' | 'staff' | 'academy' | 'knowledge' | 'community' | 'admin' | 'subscription' | 'portfolio'>('paypal_shaheen');
-  const [discordChannel, setDiscordChannel] = useState<'announcements' | 'guardrail' | 'signals' | 'near_study' | 'locked_gems' | 'agencies' | 'academy' | 'general_chat' | 'staff_desk' | 'anthem_studio'>('anthem_studio');
+  const [discordChannel, setDiscordChannel] = useState<'announcements' | 'guardrail' | 'signals' | 'near_study' | 'locked_gems' | 'agencies' | 'academy' | 'general_chat' | 'staff_desk' | 'anthem_studio' | 'subscriptions' | 'portfolio'>('anthem_studio');
 
   // Staff Desk & Support Girls
   const [staffMembers, setStaffMembers] = useState<any[]>([
@@ -2710,6 +2712,11 @@ export default function App() {
 
         {activeTab === 'dashboard' && (
           <div className="space-y-12 animate-in fade-in duration-700">
+            {/* New Market Cards Section */}
+            <div className="grid md:grid-cols-2 gap-6">
+              <MarketNews />
+              <SentimentCard />
+            </div>
             {/* Bot Control Section */}
             <div className="bg-[#121214] border border-amber-500/30 rounded-[2rem] p-6 md:p-8 space-y-6" dir="rtl">
               <div className="flex justify-between items-center flex-wrap gap-4">
