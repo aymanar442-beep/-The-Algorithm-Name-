@@ -25,6 +25,15 @@ service cloud.firestore {
     match /chats/{chatId} {
       allow read, write: if true;
     }
+    match /subscriptions/{subId} {
+      allow read, write: if true;
+    }
+    match /portfolio/{holdingId} {
+      allow read, write: if true;
+    }
+    match /customers/{userId}/{allSubcollections=**} {
+      allow read, write: if true;
+    }
     match /telegramConfig/{configId} {
       allow read, write: if true;
     }

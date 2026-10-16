@@ -16,6 +16,8 @@ import { db } from './lib/firebase';
 import { collection, onSnapshot, query, orderBy, limit, addDoc, where, serverTimestamp } from 'firebase/firestore';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend, LineChart, Line, XAxis, YAxis, CartesianGrid } from 'recharts';
 import { ShaheenPayPalRevolution } from './components/ShaheenPayPalRevolution';
+import { SubscriptionManager } from './components/SubscriptionManager';
+import { PortfolioTracker } from './components/PortfolioTracker';
 import { LanguageSwitcher } from './context/LanguageContext';
 
 const AnimatedNumber = ({ value, prefix = "", suffix = "", decimals = 2 }: { value: number, prefix?: string, suffix?: string, decimals?: number }) => {
@@ -94,7 +96,7 @@ function handleFirestoreError(error: unknown, operationType: OperationType, path
 }
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState<'paypal_shaheen' | 'discord_hub' | 'dashboard' | 'market' | 'signals' | 'agencies' | 'staff' | 'academy' | 'knowledge' | 'community' | 'admin'>('paypal_shaheen');
+  const [activeTab, setActiveTab] = useState<'paypal_shaheen' | 'discord_hub' | 'dashboard' | 'market' | 'signals' | 'agencies' | 'staff' | 'academy' | 'knowledge' | 'community' | 'admin' | 'subscription' | 'portfolio'>('paypal_shaheen');
   const [discordChannel, setDiscordChannel] = useState<'announcements' | 'guardrail' | 'signals' | 'near_study' | 'locked_gems' | 'agencies' | 'academy' | 'general_chat' | 'staff_desk' | 'anthem_studio'>('anthem_studio');
 
   // Staff Desk & Support Girls
@@ -1577,7 +1579,17 @@ export default function App() {
                     </div>
                   )}
 
-                  {/* CHANNEL 7: GENERAL CHAT */}
+                  {/* CHANNEL 7: SUBSCRIPTIONS */}
+                  {discordChannel === 'subscriptions' && (
+                    <SubscriptionManager />
+                  )}
+
+                  {/* CHANNEL 8: PORTFOLIO */}
+                  {discordChannel === 'portfolio' && (
+                    <PortfolioTracker />
+                  )}
+
+                  {/* CHANNEL 9: GENERAL CHAT */}
                   {discordChannel === 'general_chat' && (
                     <div className="space-y-4">
                       <div className="space-y-3 max-h-[450px] overflow-y-auto pr-1">

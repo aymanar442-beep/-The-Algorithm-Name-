@@ -40,11 +40,47 @@
         "createdAt": { "type": "string", "format": "date-time" }
       },
       "required": ["text", "sender", "uid", "createdAt"]
+    },
+    "subscription": {
+      "title": "Premium Signal Subscription",
+      "description": "User subscription to VIP signals with auto-renewal status.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "tier": { "type": "string", "enum": ["BASIC_SIGNALS", "VIP_GODFATHER", "SOVEREIGN_WHALE"] },
+        "status": { "type": "string", "enum": ["active", "trialing", "past_due", "canceled"] },
+        "role": { "type": "string" },
+        "autoRenew": { "type": "boolean" },
+        "currentPeriodEnd": { "type": "string", "format": "date-time" },
+        "priceMonthlyUSD": { "type": "number" },
+        "stripeSubscriptionId": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "tier", "status", "role", "autoRenew"]
+    },
+    "portfolioHolding": {
+      "title": "User Portfolio Holding",
+      "description": "Crypto asset held by the user with real-time value tracking.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "coinId": { "type": "string" },
+        "symbol": { "type": "string" },
+        "name": { "type": "string" },
+        "amount": { "type": "number" },
+        "buyPrice": { "type": "number" },
+        "exchange": { "type": "string" },
+        "notes": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "symbol", "amount", "buyPrice"]
     }
   },
   "firestore": {
     "/signals/{signalId}": { "schema": "signal", "description": "Collection of trading signals." },
     "/users/{userId}": { "schema": "user", "description": "System users and their status." },
-    "/chats/{chatId}": { "schema": "chat", "description": "Real-time chat history." }
+    "/chats/{chatId}": { "schema": "chat", "description": "Real-time chat history." },
+    "/subscriptions/{subscriptionId}": { "schema": "subscription", "description": "Active and past user subscriptions." },
+    "/portfolio/{holdingId}": { "schema": "portfolioHolding", "description": "User asset holdings and entries." }
   }
 }
