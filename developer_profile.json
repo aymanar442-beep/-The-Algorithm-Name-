@@ -1,0 +1,36 @@
+{
+  "founder": {
+    "name": "أيمن العرايشي (Ayman Al-Araishi)",
+    "title": "مؤسس SHAHEEN APEX AI ومطور معتمد",
+    "email": "ayman.al.araishi@gmail.com",
+    "organization": "SHAHEEN APEX AI",
+    "googleDeveloperProfile": "https://g.dev/AymanAlAraishi",
+    "linkedin": "https://www.linkedin.com/in/ayman-al-araishi-7930b01a7",
+    "telegram": "t.me/AymanXAlXArarishi",
+    "telegramHandle": "@AymanXAlXArarishi",
+    "youtube": "https://youtube.com/@shaheen-apex-ai?si=Q_YpIr33sJFe4g7S",
+    "twitterX": "https://x.com/Ayman__alshame",
+    "facebook": "https://www.facebook.com/share/1coersyJhX/",
+    "instagram": "https://www.instagram.com/developer_ayman_al_araishi?stkn=MWlkaTI3cDdnenhpYw==",
+    "github": [
+      "https://github.com/SHAHEEN-APEX-AI",
+      "https://github.com/Ingenious-Development-and-Investors1",
+      "https://github.com/aymanar442-beep"
+    ],
+    "linktree": "https://linktr.ee/ayman.al.araishi",
+    "treeBio": "https://tr.ee/EjIQd0",
+    "agenciesAndAffiliations": [
+      "Google Developer (g.dev/AymanAlAraishi)",
+      "Binance Certified Partner / Affiliate",
+      "MEXC Syria Official Partner",
+      "Bybit Agency Partner",
+      "1xBet & Multi-platform Ecosystem"
+    ]
+  },
+  "appPlatform": {
+    "name": "SHAHEEN APEX AI - Crypto Rich Hub",
+    "sharedUrl": "https://ais-pre-mjrsmxj7elndrshs7h4pgs-169271518299.europe-west1.run.app",
+    "devUrl": "https://ais-dev-mjrsmxj7elndrshs7h4pgs-169271518299.europe-west1.run.app",
+    "firestoreDb": "ai-studio-tradingbotsaas-2c7a2469-09f4-484e-9b37-d1fc4cc5fa19"
+  }
+}

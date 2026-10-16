@@ -1,6 +1,7 @@
 {
-  "name": "Trading Bot SaaS",
-  "description": "Automated Trading Bot SaaS with Firebase Auth and Stripe/Gumroad Subscriptions.",
-  "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+  "name": "Crypto Rich Hub",
+  "description": "The official portal for the Godfather's crypto empire, featuring signals, academy, and bot integration.",
+  "capabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
 }

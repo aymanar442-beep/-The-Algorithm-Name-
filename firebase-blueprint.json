@@ -1,0 +1,50 @@
+{
+  "entities": {
+    "signal": {
+      "title": "Trading Signal",
+      "description": "A trading recommendation from the bot.",
+      "type": "object",
+      "properties": {
+        "coin": { "type": "string" },
+        "type": { "type": "string", "enum": ["LONG", "SHORT", "SPOT"] },
+        "entry": { "type": "string" },
+        "targets": { "type": "array", "items": { "type": "string" } },
+        "stopLoss": { "type": "string" },
+        "risk": { "type": "string" },
+        "active": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["coin", "type", "entry", "active"]
+    },
+    "user": {
+      "title": "User",
+      "description": "Registered trader in the system.",
+      "type": "object",
+      "properties": {
+        "username": { "type": "string" },
+        "binanceUid": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "verified"] },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["binanceUid", "status"]
+    },
+    "chat": {
+      "title": "Chat Message",
+      "description": "Real-time message in the trading room.",
+      "type": "object",
+      "properties": {
+        "text": { "type": "string" },
+        "sender": { "type": "string" },
+        "uid": { "type": "string" },
+        "isAdmin": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["text", "sender", "uid", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/signals/{signalId}": { "schema": "signal", "description": "Collection of trading signals." },
+    "/users/{userId}": { "schema": "user", "description": "System users and their status." },
+    "/chats/{chatId}": { "schema": "chat", "description": "Real-time chat history." }
+  }
+}
