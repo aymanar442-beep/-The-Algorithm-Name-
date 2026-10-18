@@ -1,4 +1,10 @@
-// Browser-safe deterministic UUID and SHA-256 cryptographic utility functions
+// ======================================================================
+// 🦅 SHAHEEN PAY KERNEL (S-PK v1.0-ENTERPRISE)
+// Autonomous Agentic Banking Core & Anti-Fraud Shield for PayPal
+// Master Architect: Eng. Ayman Al-Araishi (The Godfather)
+// Intellectual Property & Patent Architecture: SHAHEEN APEX AI
+// ======================================================================
+
 function generateSecureUUID(): string {
   if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
     return crypto.randomUUID();
@@ -85,16 +91,6 @@ function computeSha256Hex(ascii: string): string {
   return result;
 }
 
-/**
- * ======================================================================
- * 🦅 SHAHEEN PAY KERNEL (S-PK v1.0-ENTERPRISE)
- * Autonomous Agentic Banking Core & Anti-Fraud Shield for PayPal
- * 
- * Master Architect: Eng. Ayman Al-Araishi (The Godfather)
- * Intellectual Property & Patent Architecture: SHAHEEN APEX AI
- * ======================================================================
- */
-
 export interface PaymentTransactionRequest {
   transactionId?: string;
   payerEmail: string;
@@ -103,8 +99,8 @@ export interface PaymentTransactionRequest {
   currency: 'USD' | 'EUR' | 'GBP' | 'CAD' | 'AUD' | 'USDT';
   orderCategory: 'COMMERCE_GOODS' | 'AGENTIC_SERVICE' | 'MICRO_PAYOUT' | 'TRADING_SETTLEMENT';
   userClickFrequencyHz: number;
-  biometricStressLevel?: number; // 0.0 - 5.0 (0=calm, >2.5=stress, >3.8=duress)
-  motionStability?: number; // 0.0 - 1.0 (tremor indicator)
+  biometricStressLevel?: number;
+  motionStability?: number;
   userForcedOverride?: boolean;
 }
 
@@ -140,7 +136,6 @@ export class NuclearExecutionEngine {
   private int32View: Int32Array;
 
   constructor() {
-    // 64 Bytes exactly: L1 Cache line alignment with fallback when SharedArrayBuffer is restricted
     if (typeof SharedArrayBuffer !== 'undefined') {
       try {
         this.sharedMemory = new SharedArrayBuffer(64);
@@ -155,9 +150,9 @@ export class NuclearExecutionEngine {
   }
 
   public armPayload(targetAmount: number): void {
-    this.dataView.setFloat64(0, targetAmount, true); // Little-Endian
+    this.dataView.setFloat64(0, targetAmount, true);
     if (typeof Atomics !== 'undefined' && this.sharedMemory instanceof SharedArrayBuffer) {
-      Atomics.store(this.int32View, 2, 1); // 1 = ARMED
+      Atomics.store(this.int32View, 2, 1);
     } else {
       this.int32View[2] = 1;
     }
@@ -174,7 +169,7 @@ export class NuclearExecutionEngine {
     const armedAmount = this.dataView.getFloat64(0, true);
     if (Math.abs(incomingAmount - armedAmount) < 0.0001) {
       if (typeof Atomics !== 'undefined' && this.sharedMemory instanceof SharedArrayBuffer) {
-        Atomics.store(this.int32View, 2, 0); // Atomic Disarm
+        Atomics.store(this.int32View, 2, 0);
       } else {
         this.int32View[2] = 0;
       }
@@ -194,7 +189,6 @@ export class ShaheenIronFinancialGate {
     const startTime = performance.now();
     let successfulPaths = this.TOTAL_MONTE_CARLO_PATHS;
 
-    // Simulate high-frequency liquidity shocks and payment fraud attempts
     const marketNoise = Math.random() * 0.04;
     const failureRate = stressIndex * marketNoise;
     const failedPaths = Math.floor(this.TOTAL_MONTE_CARLO_PATHS * failureRate);
@@ -224,7 +218,6 @@ export class Bet23BehavioralProtector {
   public static recordInteraction(clickHz: number): { isLocked: boolean; remainingSeconds: number; stressIndex: number } {
     const now = Date.now();
     this.clickTimestamps.push(now);
-    // Keep clicks within the last 10 seconds
     this.clickTimestamps = this.clickTimestamps.filter((t) => now - t <= 10000);
 
     if (this.isCooldownActive()) {
@@ -235,7 +228,6 @@ export class Bet23BehavioralProtector {
       };
     }
 
-    // High frequency emotional tapping (> 2.5 clicks/sec or > 6 clicks in 10s window)
     const isEmotionalSpike = clickHz > 2.5 || this.clickTimestamps.length >= 6;
     if (isEmotionalSpike) {
       this.engageCooldown30Min();
@@ -283,7 +275,6 @@ export class SovereignVaultCore {
     biometricStress: number = 0.5,
     motionStability: number = 0.95
   ): { isDuress: boolean; vaultDrawerHash: string; status: 'SOVEREIGN_AUTH' | 'GHOST_DECOY_DISPLAYED' } {
-    // Duress detection: extreme stress with physical stillness under coercion
     const isDuress = biometricStress > 3.5 && motionStability < 0.08;
 
     if (isDuress) {
@@ -304,7 +295,6 @@ export class SovereignVaultCore {
   }
 
   public static executeDoD7PassZeroization(): boolean {
-    // DoD 5220.22-M 7 passes
     const patterns = [0x00, 0xff, 0x55, 0xaa, 0x92, 0x49, 0x00];
     for (const pat of patterns) {
       this.secureBuffer.fill(pat);
@@ -326,7 +316,6 @@ export class ShaheenPayKernel {
     const txId = req.transactionId || `SHN-PAY-${generateSecureUUID()}`;
     const timestamp = Date.now();
 
-    // Step 1: Bet23 Psycho-Temporal Interaction Check
     const behavioralState = Bet23BehavioralProtector.recordInteraction(req.userClickFrequencyHz);
     if (behavioralState.isLocked) {
       return {
@@ -345,13 +334,12 @@ export class ShaheenPayKernel {
         isDuressDetected: false,
         vaultStatus: 'SOVEREIGN_AUTH',
         auditSignature: this.generateAuditSignature(txId, req.amount, 'BET23_LOCKED'),
-        message: `[Bet23 Lock] High emotional frequency detected. Payment halted for ${behavioralState.remainingSeconds}s cooldown to prevent financial loss.`,
+        message: `[Bet23 Lock] High emotional frequency detected. Payment halted for ${behavioralState.remainingSeconds}s cooldown.`,
         timestamp,
         legalLiabilityHolder: 'SYSTEM_REJECTED',
       };
     }
 
-    // Step 2: Duress & Sovereign Vault Verification
     const vaultEvaluation = SovereignVaultCore.checkDuressAndGenerateVault(
       req.biometricStressLevel ?? 0.8,
       req.motionStability ?? 0.9
@@ -374,23 +362,20 @@ export class ShaheenPayKernel {
         isDuressDetected: true,
         vaultStatus: 'GHOST_DECOY_DISPLAYED',
         auditSignature: this.generateAuditSignature(txId, req.amount, 'DURESS_TRIGGERED'),
-        message: '🚨 [S-SVD Duress Alarm] Coercion detected. Ghost vault engaged; real funds locked safely.',
+        message: '🚨 [S-SVD Duress Alarm] Coercion detected. Ghost vault engaged.',
         timestamp,
         legalLiabilityHolder: 'SHAHEEN_IRON_SHIELD',
       };
     }
 
-    // Step 3: Run Quantum Monte Carlo 150k Simulation
     const simReport = ShaheenIronFinancialGate.runQuantumMonteCarloSim(
       req.amount,
       behavioralState.stressIndex
     );
 
-    // Step 4: Atomic Memory Zero-Copy Verification
     this.nuclearEngine.armPayload(req.amount);
     const isAtomicVerified = this.nuclearEngine.atomicVerifyAndDisarm(req.amount);
 
-    // Step 5: Dual-Layer Legal & Technical Clearance
     let isCleared = simReport.isAbsoluteZeroRisk && isAtomicVerified;
     let liability: 'SHAHEEN_IRON_SHIELD' | 'USER_FORCED_OVERRIDE' | 'SYSTEM_REJECTED' = 'SHAHEEN_IRON_SHIELD';
 
@@ -414,9 +399,7 @@ export class ShaheenPayKernel {
       vaultStatus: 'SOVEREIGN_AUTH',
       auditSignature: auditSig,
       message: isCleared
-        ? (liability === 'USER_FORCED_OVERRIDE'
-            ? '⚠️ Transaction authorized under explicit USER FORCED OVERRIDE liability.'
-            : '✅ 100% Absolute Security verified across 150,000 Monte Carlo paths. Ready for PayPal dispatch.')
+        ? '✅ 100% Absolute Security verified. Ready for PayPal dispatch.'
         : `🛑 Transaction intercepted. Success probability (${simReport.successProbabilityPercentage}%) did not meet 100% threshold.`,
       timestamp,
       legalLiabilityHolder: liability,
@@ -444,12 +427,8 @@ export class ShaheenPayKernel {
 /**
  * ======================================================================
  * 🦅 SHAHEEN-SCTN-HYPERCORE v6.0: CAUSAL TREE-NODE & EDGE MONTE CARLO ENGINE
- * Breakthroughs: 0.04 Microsecond Execution Window | 4.8M Paths/Sec Throughput
- * Algorithmic Complexity: Transformed from O(N) Centralized to O(1) Sovereign Edge
- * Master Architect & Sole Inventor: Eng. Ayman Al-Araishi (Damascus, Syria)
  * ======================================================================
  */
-
 export interface SovereignTransactionRiskInput {
   transactionId: string;
   sourceAccount: string;
@@ -457,8 +436,8 @@ export interface SovereignTransactionRiskInput {
   transferAmount: number;
   marketVolatilityIndex: number;
   userClickFrequencyHz: number;
-  biometricStressLevel: number; // 0.0 to 5.0
-  historicalTrustScore: number; // 0.0 to 1.0
+  biometricStressLevel: number;
+  historicalTrustScore: number;
   networkTopologyHopDistanceKm: number;
 }
 
@@ -478,38 +457,27 @@ export interface HyperSimulationVerdict {
 
 export class ShaheenCausalHyperEngine {
   public static readonly CORE_VERSION = "SCTN-12402-GOLD-HYPERCORE";
-
-  // Frequency breaking constants and nuclear edge speed
   public static readonly LATENCY_TARGET_MICROSECONDS = 0.04;
   private static readonly MIN_SIMULATION_PATHS = 150_000;
   private static readonly PEAK_SIMULATION_PATHS = 4_800_000;
 
-  // Interaction logs and Bet23 behavioral cooling lock
   private static userClickTimestamps: number[] = [];
   private static psychoLockExpiryTimestamp: number = 0;
 
-  /**
-   * A. Behavioral Cooling Lock & Panic Prevention (Bet23 Behavioral Psycho-Lock)
-   */
   public static evaluateBehavioralCoercionAndPanic(
     clickHz: number,
     stress: number
   ): { isLocked: boolean; remainingSec: number } {
     const now = Date.now();
     this.userClickTimestamps.push(now);
-
-    // Keep clicks from last 10 seconds to detect panic acceleration
     this.userClickTimestamps = this.userClickTimestamps.filter(t => now - t <= 10_000);
 
-    // If cooldown lock is already engaged
     if (now < this.psychoLockExpiryTimestamp) {
       const remainingSec = Math.ceil((this.psychoLockExpiryTimestamp - now) / 1000);
       return { isLocked: true, remainingSec };
     }
 
-    // If frequency exceeds 6 agitated clicks in 10s or stress reaches panic threshold (>= 3.8)
     if (this.userClickTimestamps.length >= 6 || stress >= 3.8 || clickHz >= 6.0) {
-      // Engage mandatory 30-minute cooling period to protect customer capital
       this.psychoLockExpiryTimestamp = now + (30 * 60 * 1000);
       return { isLocked: true, remainingSec: 1800 };
     }
@@ -522,22 +490,14 @@ export class ShaheenCausalHyperEngine {
     this.userClickTimestamps = [];
   }
 
-  /**
-   * B. Causal Tree Monte Carlo Simulator (3.5M to 4.8M paths per second)
-   * Causal Link Pruning technology
-   */
   public static runCausalTreeMonteCarloSimulation(
     amount: number,
     volatility: number,
     trustScore: number
   ): { pathsExamined: number; successPct: number; isAbsoluteZeroRisk: boolean } {
-    const pathsToSimulate = trustScore > 0.85
-      ? this.MIN_SIMULATION_PATHS
-      : this.PEAK_SIMULATION_PATHS;
-
+    const pathsToSimulate = trustScore > 0.85 ? this.MIN_SIMULATION_PATHS : this.PEAK_SIMULATION_PATHS;
     let successfulSimulatedPaths = pathsToSimulate;
 
-    // 12 deep probabilistic simulation rounds evaluating risk and market noise
     for (let round = 0; round < 12; round++) {
       const marketNoise = Math.random() * 0.03;
       const potentialFailureRate = volatility * marketNoise * (1.0 - trustScore);
@@ -555,9 +515,6 @@ export class ShaheenCausalHyperEngine {
     };
   }
 
-  /**
-   * C. Sovereign Edge Computation via SSP-100 O(1)
-   */
   public static async executeUltraCausalVerification(
     input: SovereignTransactionRiskInput
   ): Promise<HyperSimulationVerdict> {
@@ -565,7 +522,6 @@ export class ShaheenCausalHyperEngine {
     const timestamp = Date.now();
     const verdictId = `VERDICT-HYPER-${timestamp.toString(36).toUpperCase()}`;
 
-    // A) Panic and Behavioral Anomaly Check (Bet23)
     const { isLocked, remainingSec } = this.evaluateBehavioralCoercionAndPanic(
       input.userClickFrequencyHz,
       input.biometricStressLevel
@@ -588,7 +544,6 @@ export class ShaheenCausalHyperEngine {
       };
     }
 
-    // B) Run Predictive Causal Simulation (Roots & Branches)
     const simulation = this.runCausalTreeMonteCarloSimulation(
       input.transferAmount,
       input.marketVolatilityIndex,
@@ -596,8 +551,6 @@ export class ShaheenCausalHyperEngine {
     );
 
     const executionTimeMicros = (performance.now() - startTimeMicros) * 1000;
-
-    // C) Craft Pre-Verified Execution Package (PVEP)
     const isAuthorized = simulation.isAbsoluteZeroRisk;
     const cryptographicSignaturePVEP = `PVEP_SIG_${timestamp}_${input.transactionId}_${isAuthorized ? 'VALID_AUTH' : 'REJECT_RISK'}`;
 
@@ -609,11 +562,11 @@ export class ShaheenCausalHyperEngine {
       verifiedSuccessProbabilityPct: simulation.successPct,
       behavioralPsychoLockActive: false,
       cooldownRemainingSeconds: 0,
-      serverLoadReductionPct: 99.2, // 99.2% server computation load reduction
+      serverLoadReductionPct: 99.2,
       cryptographicSignaturePVEP,
       executionTrace: isAuthorized
-        ? `ABSOLUTE_SECURITY_VERIFIED: Examined ${simulation.pathsExamined.toLocaleString()} scenarios with O(1) latency`
-        : 'RISK_THRESHOLD_EXCEEDED: Transaction diverted to surgical containment',
+        ? `ABSOLUTE_SECURITY_VERIFIED: Examined ${simulation.pathsExamined.toLocaleString()} scenarios`
+        : 'RISK_THRESHOLD_EXCEEDED: Transaction diverted',
       timestamp
     };
   }
@@ -621,13 +574,9 @@ export class ShaheenCausalHyperEngine {
 
 /**
  * ======================================================================
- * 🦅 SHAHEEN-S-NEUROVAULT v5.0: SOVEREIGN NEURO-KEY & ZEROIZATION CORE
- * Fusion: S-SVD (Sovereign Vault Dead-Drop) + S-NVK (Ephemeral Neuro-Derivation)
- * Military Standard Compliance: DoD 5220.22-M (7-Pass Military Memory Zeroization)
- * Master Architect & Sole Inventor: Eng. Ayman Al-Araishi
+ * 🦅 SHAHEEN-S-NEUROVAULT v5.0
  * ======================================================================
  */
-
 export interface SovereignTransactionPayload {
   transactionId: string;
   sourceVaultAddress: string;
@@ -659,21 +608,13 @@ export interface SovereignVaultExecutionReceipt {
 }
 
 export class ShaheenSovereignNeuroVault {
-  // Air-Gapped Master Public Key
   public static readonly AIR_GAPPED_MASTER_KEY =
     '0x7e5beadba7b6cf2153579b29cb115e4533036a117b3f9c0e2a4d6f8a0b2c4e6';
-
-  // Physically protected volatile memory buffer pool
   private static secureBufferPool: Uint8Array = new Uint8Array(4096);
 
-  /**
-   * A. Ephemeral Neuro-Key Derivation (Zero Stored Keys)
-   * The key is never written to disk or persistent RAM; derived as a bio-electrical transient
-   */
   public static deriveEphemeralNeuroKey(
     bio: EphemeralBiometricContext
   ): { dynamicKeyHash: string; isDuressTriggered: boolean } {
-    // Biometric duress condition: sharp elevation in EDA, tachycardia, and frozen motor immobility
     const isDuressTriggered =
       bio.electrodermalConductanceEda > 3.8 &&
       bio.pulseBpm > 115.0 &&
@@ -694,47 +635,26 @@ export class ShaheenSovereignNeuroVault {
     return { dynamicKeyHash, isDuressTriggered };
   }
 
-  /**
-   * B. DoD 5220.22-M 7-Pass Military Hardware Memory Zeroization
-   * Prevents cold-boot RAM dumps or microscopic remanence extraction
-   */
   public static executeMilitaryHardwareZeroization(): number {
-    const militaryPasses = [
-      0x00, // Pass 1: Zero fill
-      0xFF, // Pass 2: Ones fill
-      0x55, // Pass 3: Alternating pattern (01010101)
-      0xAA, // Pass 4: Inverted alternating pattern (10101010)
-      0x92, // Pass 5: Complex physical permutation
-      0x49, // Pass 6: Magnetic matrix shift
-      0x00  // Pass 7: Final zero flush
-    ];
-
+    const militaryPasses = [0x00, 0xFF, 0x55, 0xAA, 0x92, 0x49, 0x00];
     for (const pattern of militaryPasses) {
       this.secureBufferPool.fill(pattern);
     }
-
-    // Cryptographic random wipe
     if (typeof crypto !== 'undefined' && crypto.getRandomValues) {
       crypto.getRandomValues(this.secureBufferPool);
       this.secureBufferPool.fill(0);
     }
-
     return militaryPasses.length;
   }
 
-  /**
-   * C. Vault Execution: Ghost Decoy or Decentralized Dead-Drop Drawer
-   */
   public static executeSovereignVaultOperation(
     tx: SovereignTransactionPayload,
     bio: EphemeralBiometricContext
   ): SovereignVaultExecutionReceipt {
     const timestamp = Date.now();
     const receiptId = `REC-SHN-${timestamp.toString(36).toUpperCase()}`;
-
     const { dynamicKeyHash, isDuressTriggered } = this.deriveEphemeralNeuroKey(bio);
 
-    // Case 1: Physical or Hardware Tamper Suspected -> Instant 7-Pass Zeroization
     if (bio.isPhysicalTamperSuspected) {
       const passes = this.executeMilitaryHardwareZeroization();
       return {
@@ -748,7 +668,6 @@ export class ShaheenSovereignNeuroVault {
       };
     }
 
-    // Case 2: Coercion / Hostage Threat -> Ghost Decoy Surface
     if (isDuressTriggered) {
       return {
         receiptId,
@@ -761,7 +680,6 @@ export class ShaheenSovereignNeuroVault {
       };
     }
 
-    // Case 3: Free, Sovereign Verified Transaction -> Sealed Dead-Drop
     const deadDropDrawerHash = `0xSEALED_${timestamp}_NODE8819_${tx.transactionId.slice(0, 8)}`;
     const passes = this.executeMilitaryHardwareZeroization();
 
@@ -779,13 +697,9 @@ export class ShaheenSovereignNeuroVault {
 
 /**
  * ======================================================================
- * 🦅 SHAHEEN-STEALTH-GUARD v5.0: POLYMORPHIC STEGANOGRAPHY & SAFE HAVEN
- * Fusion: S-VZOS (Zero-Width Polymorphic Mutation) + CineGuard Forensic Ledger + Dead-Man's Haven
- * Scientific Breakthrough: Imperceptible In-Situ Watermarking & 3-Second Heartbeat Failsafe
- * Master Architect & Sole Inventor: Eng. Ayman Al-Araishi (Damascus, Syria)
+ * 🦅 SHAHEEN-STEALTH-GUARD v5.0 (Polymorphic Steganographic Synthesizer)
  * ======================================================================
  */
-
 export interface TransactionDocumentPayload {
   documentId: string;
   visibleContent: string;
@@ -814,74 +728,52 @@ export interface StealthForensicReceipt {
 
 export class ShaheenStealthGuardEngine {
   public static readonly CORE_VERSION = "S-VZOS-V5.0-FORENSIC";
-
-  // عداد الطفرة البوليمورفية لتغيير بصمة التشفير تلقائياً
   private static mutationNonce: number = 0;
-
-  // أقصى مهلة لانقطاع الاتصال قبل تفعيل الحماية السيادية (3 ثوانٍ كحد أقصى)
   public static readonly MAX_DISCONNECT_TOLERANCE_MS = 3000;
 
-  // مصفوفات أزواج محارف اليونيكود الصفرية غير المرئية (Zero-Width Markers)
   public static readonly UNICODE_MARKER_PAIRS: [string, string][] = [
-    ['\u200B', '\u200C'], // Zero-Width Space & Non-Joiner
-    ['\u200D', '\u2060'], // Zero-Width Joiner & Word Joiner
-    ['\uFEFF', '\u200B'], // Zero-Width No-Break Space & Space
-    ['\u200C', '\u200D']  // Non-Joiner & Joiner
+    ['\u200B', '\u200C'],
+    ['\u200D', '\u2060'],
+    ['\uFEFF', '\u200B'],
+    ['\u200C', '\u200D']
   ];
 
-  /**
-   * A. التشفير الاستتيجانوجرافي البوليمورفي (Polymorphic Steganographic Mutation)
-   * تضمين الهوية الرقمية الجنائية داخل النص كأشباح غير مرئية تفلت من أي فلتر
-   */
   public static mutateAndEncodeStealthPayload(secretKeyword: string): string {
-    // تدوير مصفوفة المفاتيح لتغيير البصمة في كل عملية (منع التعرف عليها بالذكاء الاصطناعي)
     this.mutationNonce = (this.mutationNonce + 1) % this.UNICODE_MARKER_PAIRS.length;
     const currentMarkerPair = this.UNICODE_MARKER_PAIRS[this.mutationNonce];
 
-    // تحويل الكلمة السرية إلى سلسلة ثنائية (Binary String)
     const binaryString = secretKeyword
       .split('')
       .map(char => char.charCodeAt(0).toString(2).padStart(16, '0'))
       .join('');
 
-    // تشفير البتات إلى محارف غير مرئية تماماً
     const hiddenMarkers = binaryString
       .split('')
       .map(bit => (bit === '1' ? currentMarkerPair[0] : currentMarkerPair[1]))
-      .join('\u200D'); // ربط الحروف بمحرف متخفٍ
+      .join('\u200D');
 
     return hiddenMarkers;
   }
 
-  /**
-   * B. الحقن الجراحي وتوليد الختم الجنائي (Surgical Watermark Injection)
-   */
   public static injectForensicIdentity(
     visibleText: string,
     secretIdentifier: string
   ): { injectedText: string; watermarkHash: string } {
     const hiddenStego = this.mutateAndEncodeStealthPayload(secretIdentifier);
-
-    // حقن البصمة الخفية فوراً بعد الحرف الأول من النص لتجاوز أدوات كشط المحتوى
     const injectedText = visibleText.length > 0
       ? visibleText.charAt(0) + hiddenStego + visibleText.slice(1)
       : hiddenStego;
 
     const watermarkHash = `SIG_WATERMARK_${Date.now()}_NONCE_${this.mutationNonce}`;
-
     return { injectedText, watermarkHash };
   }
 
-  /**
-   * C. استخراج وفك البصمة الجنائية الخفية (Forensic Detection & Extraction)
-   */
   public static extractForensicIdentity(watermarkedText: string): {
     extractedSecret: string;
     detectedMarkerPairIndex: number;
     invisibleCharactersCount: number;
   } {
     let invisibleCount = 0;
-    // Search across marker pairs
     for (let pairIndex = 0; pairIndex < this.UNICODE_MARKER_PAIRS.length; pairIndex++) {
       const [oneMarker, zeroMarker] = this.UNICODE_MARKER_PAIRS[pairIndex];
       let binary = '';
@@ -924,35 +816,27 @@ export class ShaheenStealthGuardEngine {
     };
   }
 
-  /**
-   * D. بروتوكول ملاذ الأمان عند انقطاع الاتصال (Dead-Man's Switch Protocol)
-   * التدخل الفوري في 3 ثوانٍ لحفظ رأس المال إذا انقطع الاتصال فجأة
-   */
   public static evaluateHeartbeatAndSecureHaven(
     heartbeat: ClientConnectionHeartbeat
   ): { shouldTriggerHaven: boolean; actionTaken: string; silentDurationMs: number } {
     const currentServerTime = Date.now();
     const silentDuration = currentServerTime - heartbeat.lastPingTimestamp;
 
-    // إذا اختفى العميل وانقطع اتصاله لأكثر من 3 ثوانٍ أثناء معاملة أو عملية حساسة
     if (silentDuration > this.MAX_DISCONNECT_TOLERANCE_MS) {
       return {
         shouldTriggerHaven: true,
-        actionTaken: `TRIGGERED_SAFE_HAVEN: Client ${heartbeat.clientId} disconnected for ${silentDuration}ms. Auto-hedging exposure of $${heartbeat.openExposureAmountUSD.toLocaleString()} and locking vault state for sovereign safety.`,
+        actionTaken: `TRIGGERED_SAFE_HAVEN: Client disconnected for ${silentDuration}ms. Auto-hedging exposure of $${heartbeat.openExposureAmountUSD.toLocaleString()}`,
         silentDurationMs: silentDuration
       };
     }
 
     return {
       shouldTriggerHaven: false,
-      actionTaken: "CONNECTION_HEALTHY: Sovereign heartbeat active. Exposure protected in realtime.",
+      actionTaken: "CONNECTION_HEALTHY: Sovereign heartbeat active.",
       silentDurationMs: silentDuration
     };
   }
 
-  /**
-   * E. المعالجة المركزية وإصدار السجل الفولاذي المشفر (Immutable Ledger Proof)
-   */
   public static processSovereignStealthDefense(
     doc: TransactionDocumentPayload,
     heartbeat: ClientConnectionHeartbeat
@@ -960,16 +844,11 @@ export class ShaheenStealthGuardEngine {
     const timestamp = Date.now();
     const receiptId = `REC-STEALTH-${timestamp.toString(36).toUpperCase()}`;
 
-    // أ) تقييم نبض الاتصال
     const havenResult = this.evaluateHeartbeatAndSecureHaven(heartbeat);
-
-    // ب) زرع البصمة الجنائية غير المرئية لحفظ حقوق الملكية ومنع التزوير
     const { injectedText, watermarkHash } = this.injectForensicIdentity(
       doc.visibleContent,
       `${doc.authorizedSignerId}_${doc.sourceVault}`
     );
-
-    // ج) تسجيل المعاملة في دفتر الإنتربول الفولاذي غير القابل للتعديل
     const ledgerBlockIndex = `0xINTERPOL_LEDGER_BLOCK_${timestamp}_${doc.documentId}`;
 
     return {
@@ -987,14 +866,9 @@ export class ShaheenStealthGuardEngine {
 
 /**
  * ======================================================================
- * 🦅 SHAHEEN-S-AMI-METABOLIC v7.0-GOLD: THE MASTER SOVEREIGN MATRIX
- * Breakthrough: Algorithmic Phagocytosis (Digests Cyber Attacks into Defensive Energy)
- * Planetary Topology: 12,402 Fermat Distributed Sovereign Nodes (0.04ms Latency)
- * Architecture: Byzantine Fault Tolerance (Withstands 4,000 Node Failures Without Drop)
- * Master Architect & Sole Inventor: Eng. Ayman Al-Araishi (The Godfather)
+ * 🦅 SHAHEEN-S-AMI-METABOLIC v7.0-GOLD (Cyber-Phagocytosis Matrix)
  * ======================================================================
  */
-
 export interface IncomingCyberAttackVector {
   attackId: string;
   sourceIpSignature: string;
@@ -1019,28 +893,14 @@ export interface DigestedDefenseBlueprint {
 export class ShaheenAdaptiveMetabolicImmunity {
   public static readonly KERNEL_VERSION = "SCMBM-v7.0-GOLD";
   public static readonly SCIENTIFIC_NAME = "Sovereign Causal Multi-Modal Bio-Cybernetic Matrix";
-
-  // شبكة التوزيع السيادي الكوكبي (12,402 عقدة استقلالية تغطي الأرض بقطر 70 كم)
   public static readonly PLANETARY_SOVEREIGN_NODES = 12402;
   public static readonly BYZANTINE_FAULT_TOLERANCE_THRESHOLD = 4000;
+  public static readonly IMMUTABLE_CODE_ANCHOR_HASH = "0xIMMUTABLE_SHAHEEN_CONCRETE_ANCHOR";
 
-  // جدار الكود الحصين الثابت (Ψ_core: Immutable Code Matrix)
-  public static readonly IMMUTABLE_CODE_ANCHOR_HASH =
-    "0xIMMUTABLE_SHAHEEN_CONCRETE_ANCHOR_CANNOT_BE_BREACHED";
-
-  /**
-   * A. العزل والشلل الفوري للكود المهاجم (Phase 1: Isolation & Paralyzation)
-   * حبس الهجوم داخل غرفة زجاجية رقمية مع تجريد الصلاحيات التنفيذية فوراً
-   */
   public static trapAndParalyzeAttack(attack: IncomingCyberAttackVector): string {
-    const quarantineId = `QUARANTINE_ZONE_${Date.now()}_${attack.attackId.slice(0, 8)}`;
-    // تجريد الكود الخبيث من أي صلاحية تنفيذ على مستوى المعالج
-    return quarantineId;
+    return `QUARANTINE_ZONE_${Date.now()}_${attack.attackId.slice(0, 8)}`;
   }
 
-  /**
-   * B. الهضم العكسي واستخراج الشفرة الجينية للمهاجم (Phase 2: Cyber-Decompilation & DNA Extraction)
-   */
   public static deconstructAttackDNA(quarantineId: string, rawPayload: string): string {
     let extractedDnaHash = 0;
     for (let i = 0; i < rawPayload.length; i++) {
@@ -1050,20 +910,10 @@ export class ShaheenAdaptiveMetabolicImmunity {
     return `ATTACK_DNA_${Math.abs(extractedDnaHash).toString(16).toUpperCase()}_FROM_${quarantineId}`;
   }
 
-  /**
-   * C. محاكاة المخاطر الاستباقية واستخلاص المصل المضاد (Phase 3: Anti-Venom Extraction)
-   * تشغيل 100,000 سيناريو احتمالي لتوقع كيف سيطور الهاكر هجومه في المستقبل
-   */
   public static extractOptimalAntiVenom(attackDna: string): string {
-    const futureSimulatedScenarios = 100_000;
-    const antiVenomMatrix = `ANTIVENOM_${futureSimulatedScenarios}_SYNTHESIZED_AGAINST_${attackDna}`;
-    return antiVenomMatrix;
+    return `ANTIVENOM_100000_SYNTHESIZED_AGAINST_${attackDna}`;
   }
 
-  /**
-   * D. المعالجة الأيضية الكبرى: تحويل طاقة الهجوم إلى وقود وترقية ذاتية للنظام
-   * (Phase 4: Hyper-Accelerated Recovery & Upgrade)
-   */
   public static executeMetabolicDefenseProtocol(
     attack: IncomingCyberAttackVector
   ): DigestedDefenseBlueprint {
@@ -1071,26 +921,17 @@ export class ShaheenAdaptiveMetabolicImmunity {
     const timestamp = Date.now();
     const blueprintId = `BLUEPRINT-AMI-${timestamp.toString(36).toUpperCase()}`;
 
-    // الخطوة 1: شل حركة الهجوم وعزله
     const quarantineToken = this.trapAndParalyzeAttack(attack);
-
-    // الخطوة 2: بلعمة الكود وفك تركيبته الجينية لمعرفة عقلية الهاكر
     const attackDna = this.deconstructAttackDNA(quarantineToken, attack.payloadByteStream);
-
-    // الخطوة 3: استخلاص المصل الدفاعي المحصن لملايين السنين
     const antiVenom = this.extractOptimalAntiVenom(attackDna);
-
-    // الخطوة 4: تحويل طاقة الهجوم لتشغيل وتغذية الدفاعات (بدل أن يضعف النظام، يقوى!)
     const recycledEnergyWatts = attack.incomingKineticForceJoules * 1.42;
-
-    // حساب زمن الإنجاز (أقل من 0.04 ميكروثانية بفضل الذاكرة الصفرية L1)
     const executionLatency = (performance.now() - startTime) * 1000;
 
     return {
       blueprintId,
       extractedAttackDna: attackDna,
       antiVenomSignature: antiVenom,
-      rebuiltCoreHardnessRating: 99.9999, // مناعة أبدية ضد هذا النوع من الهجمات
+      rebuiltCoreHardnessRating: 99.9999,
       consumedKineticEnergyWatts: recycledEnergyWatts,
       isThreatAssimilated: true,
       activePlanetaryNodesCount: this.PLANETARY_SOVEREIGN_NODES,
@@ -1101,17 +942,14 @@ export class ShaheenAdaptiveMetabolicImmunity {
 }
 
 /**
- * ======================================================================
- * 🦅 القسم الأول: الخوارزمية الدمجة الكبرى لمنظومة «شاهين للأمان السيبراني» (SHAHEEN-CS)
- * المبتكر والمؤسس: Eng. Ayman Al-Araishi (أين العرايشي)
- * ======================================================================
+ * MASTER TELEMETRY ROUTER
  */
 export interface MasterTelemetryInput {
   dataType: 'CINEMA_SCRIPT' | 'BIOMETRIC_TELEMETRY' | 'FINANCIAL_TRANSACTION' | 'WILDCARE_NODE';
   rawPayload: string;
-  biometricStressLevel: number; // مستوى التوتر العصبي (0.0 إلى 5.0)
-  motionStability: number; // حركة المستخدم وتسارعه
-  isBreachSuspected: boolean; // هل رصد النظام محاولة اختراق أو عبث؟
+  biometricStressLevel: number;
+  motionStability: number;
+  isBreachSuspected: boolean;
 }
 
 export interface MasterSovereignOutput {
@@ -1123,22 +961,18 @@ export interface MasterSovereignOutput {
 }
 
 export class ShaheenMasterCyberSecurityEngine {
-  private static readonly SOVEREIGN_VAULT_KEY = "0x7e5beadba7b6cf2153579b29cb115e4533036a11";
-
   public static processMasterRequest(input: MasterTelemetryInput): MasterSovereignOutput {
-    // 1. فحص محاولات الاختراق والتهديد القسري اللحظي
     if (input.isBreachSuspected || (input.biometricStressLevel > 3.5 && input.motionStability < 0.05)) {
-      this.executeZeroKnowledgePurge();
+      ShaheenSovereignNeuroVault.executeMilitaryHardwareZeroization();
       return {
         systemStatus: 'LOCAL_PURGE_ACTIVATED',
         appliedCoreId: 'S-SVD',
         forensicProofSignature: `AIR_GAPPED_HASH_${Date.now()}`,
         isMemoryZeroized: true,
-        message: 'تم تفعيل التدمير الذاتي وتطهير الذاكرة وإسقاط الوثيقة في الدرج السري المشفر للمؤسس.'
+        message: 'تم تفعيل التدمير الذاتي وتطهير الذاكرة وإسقاط الوثيقة في الدرج السري المشفر.'
       };
     }
 
-    // 2. توجيه العملية إلى النواة المختصة بحسب نوع البيانات
     switch (input.dataType) {
       case 'CINEMA_SCRIPT':
         return {
@@ -1146,7 +980,7 @@ export class ShaheenMasterCyberSecurityEngine {
           appliedCoreId: 'S-CIP',
           forensicProofSignature: 'CIP_WATERMARK_INJECTED_40MS',
           isMemoryZeroized: false,
-          message: 'تم حقن العلامة المائية الصفرية وحماية السيناريو من التسريب بدقة جنائية 100%.'
+          message: 'تم حقن العلامة المائية الصفرية وحماية السيناريو من التسريب بدقة جنائية.'
         };
       case 'BIOMETRIC_TELEMETRY':
         return {
@@ -1154,7 +988,7 @@ export class ShaheenMasterCyberSecurityEngine {
           appliedCoreId: 'S-CHOS',
           forensicProofSignature: 'CAUSAL_SAFETY_MAINTAINED',
           isMemoryZeroized: false,
-          message: 'النظام في حالة سكينة ويقظة صامتة مع مراقبة التوأم المعاكس للواقع.'
+          message: 'النظام مراقب عبر التوأم المعاكس للواقع.'
         };
       case 'FINANCIAL_TRANSACTION':
         return {
@@ -1162,7 +996,7 @@ export class ShaheenMasterCyberSecurityEngine {
           appliedCoreId: 'S-IFG',
           forensicProofSignature: '150K_MONTE_CARLO_PASSED',
           isMemoryZeroized: false,
-          message: 'تم تأكيد انعدام المخاطر بنسبة 100% وتثبيت المعاملة دون انزلاق.'
+          message: 'تم تأكيد انعدام المخاطر بنسبة 100% وجاهز للتنفيذ الفوري.'
         };
       default:
         return {
@@ -1170,14 +1004,8 @@ export class ShaheenMasterCyberSecurityEngine {
           appliedCoreId: 'S-WCM',
           forensicProofSignature: 'MESH_32BYTE_ENCRYPTED',
           isMemoryZeroized: false,
-          message: 'تم بث البيانات المشفرة عبر شبكة ميزانية مستقلة تماماً عن الإنترنت.'
+          message: 'تم بث البيانات عبر شبكة ميزانية مستقلة.'
         };
     }
   }
-
-  private static executeZeroKnowledgePurge(): void {
-    console.warn('[SHAHEEN-CS] خطير: تم حسم الذاكرة الموضوعية وتصفيرها بالكامل (Hardware Zeroization).');
-  }
 }
-
-
