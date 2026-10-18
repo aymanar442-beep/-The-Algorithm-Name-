@@ -98,6 +98,36 @@ export const ExecutiveSummaryModal: React.FC<ExecutiveSummaryModalProps> = ({ is
 
         {/* Content Body */}
         <div className="space-y-8">
+
+          {/* Strategic Narrative: User Desires vs PayPal Desires vs The Brilliant Link */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="p-5 rounded-2xl bg-blue-950/40 border border-blue-500/30 space-y-2">
+              <div className="flex items-center gap-2 text-cyan-400 font-bold text-sm">
+                <span>1️⃣ ماذا يريد المستخدم؟</span>
+              </div>
+              <p className="text-gray-300 text-xs leading-relaxed">
+                حرية تامة في الإرسال والاستقبال بضغطة زر، مع صفر خوف من تجميد الحساب ظلماً (180 يوماً)، واسترداد فوري للأموال بلمسة واحدة خلال ثانية واحدة دون انتظار أسابيع.
+              </p>
+            </div>
+
+            <div className="p-5 rounded-2xl bg-amber-950/40 border border-amber-500/30 space-y-2">
+              <div className="flex items-center gap-2 text-amber-400 font-bold text-sm">
+                <span>2️⃣ ماذا يريد ملاك باي بال؟</span>
+              </div>
+              <p className="text-gray-300 text-xs leading-relaxed">
+                إيقاف خسائر الاحتيال والنزاعات التي تكلف الشركة مليارات الدولارات سنوياً، الغاء تكاليف الدعم الفني الضخمة، وفرز النصاب عن الشريف فوراً لإنقاذ السمعة والأرباح.
+              </p>
+            </div>
+
+            <div className="p-5 rounded-2xl bg-emerald-950/40 border border-emerald-500/30 space-y-2">
+              <div className="flex items-center gap-2 text-emerald-400 font-bold text-sm">
+                <span>3️⃣ الرابط العبقري (الخزنة المشروطة)</span>
+              </div>
+              <p className="text-gray-300 text-xs leading-relaxed">
+                المال لا يضيع ولا يتجمد، بل يدخل في «خزنة شاهين الذكية ذات الإفراج المشروط». يُحرر عند تسليم السلعة، أو يُسترد ذاتياً وفوراً في ثانية واحدة عند حدوث أي غش أو إكراه!
+              </p>
+            </div>
+          </div>
           
           {/* Section 1: The 5 Core Units Table */}
           <div className="space-y-4">

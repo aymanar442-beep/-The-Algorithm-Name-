@@ -53,6 +53,7 @@ export const ShaheenPayPalRevolution: React.FC = () => {
     'smart_vault' | 'hypercore' | 'neuro_vault' | 'stealth_guard' | 'ami_metabolic' | 'medical_duress' | 'user_freedom' | 'executive_roi' | 'pitch_doc' | 'pqc_quantum_gap'
   >('smart_vault');
   const [selectedCountry, setSelectedCountry] = useState<string>('US');
+  const [lang, setLang] = useState<'en' | 'ar'>('en');
 
   // PQC Quantum Gap State (Dr. David Utzke Thesis Integration)
   const [pqcScanActive, setPqcScanActive] = useState<boolean>(false);
@@ -673,6 +674,16 @@ export const ShaheenPayPalRevolution: React.FC = () => {
                   <option value="SG">🇸🇬 Singapore (SGD S$)</option>
                 </select>
               </div>
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-purple-500/20 border border-purple-500/40 rounded-full text-purple-300 text-xs font-bold">
+                <Globe size={14} />
+                <span>Lang:</span>
+                <button
+                  onClick={() => setLang(prev => prev === 'en' ? 'ar' : 'en')}
+                  className="bg-purple-900/90 text-white font-mono text-xs px-2 py-0.5 rounded border border-purple-400/60 hover:bg-purple-800 transition-colors cursor-pointer"
+                >
+                  {lang === 'en' ? '🇬🇧 English (Switch to AR)' : '🇸🇦 العربية (Switch to EN)'}
+                </button>
+              </div>
             </div>
 
             {/* Title */}
@@ -687,10 +698,41 @@ export const ShaheenPayPalRevolution: React.FC = () => {
             </h1>
 
             <p className="text-blue-100/90 mt-3 text-sm md:text-base max-w-3xl leading-relaxed">
-              The Sovereign Financial Architecture by <strong className="text-amber-300">Eng. Ayman Al-Araishi</strong>: 
-              Combining the <strong className="text-[#00cfde]">Causal HyperCore Engine (4.8M paths/sec at 0.04µs)</strong> with the <strong className="text-emerald-400">Sovereign NeuroVault (DoD 5220.22-M 7-Pass Zeroization)</strong>. 
-              Money never reaches the fraudster's pocket nor gets frozen 180 days — quarantined in an encrypted sovereign escrow with 1-second autonomous reversal!
+              {lang === 'en' ? (
+                <>
+                  The Sovereign Financial Architecture by <strong className="text-amber-300">Eng. Ayman Al-Araishi</strong>: 
+                  Combining the <strong className="text-[#00cfde]">Causal HyperCore Engine (4.8M paths/sec at 0.04µs)</strong> with the <strong className="text-emerald-400">Sovereign NeuroVault (DoD 5220.22-M 7-Pass Zeroization)</strong>. 
+                  Money never reaches the fraudster's pocket nor gets frozen 180 days — quarantined in an encrypted sovereign escrow with 1-second autonomous reversal!
+                </>
+              ) : (
+                <>
+                  البنية المالية السيادية للمهندس <strong className="text-amber-300">أيمن العريشي</strong>: 
+                  تجمع بين محرك <strong className="text-[#00cfde]">Causal HyperCore (4.8 مليون مسار/ثانية عند 0.04 ميكروثانية)</strong> وخزنة <strong className="text-emerald-400">NeuroVault السيادية (DoD 5220.22-M)</strong>. 
+                  المال لا يصل للنصاب ولا يتجمد 180 يوماً — بل يُعزل في خزنة مشفرة مع استرداد ذاتي في ثانية واحدة!
+                </>
+              )}
             </p>
+
+            {/* Sovereign Philosophy & Axiom Highlight Banner */}
+            <div className="mt-5 p-4 rounded-2xl bg-black/40 border border-amber-500/30 backdrop-blur-md flex flex-col md:flex-row items-start md:items-center justify-between gap-4 text-xs">
+              <div className="flex items-center gap-3">
+                <div className="p-2.5 rounded-xl bg-amber-500/20 text-amber-300 border border-amber-500/40 shrink-0">
+                  <ShieldCheck size={20} />
+                </div>
+                <div>
+                  <h4 className="text-amber-300 font-black text-sm">
+                    "Do not just protect the account; protect its owner's free will"
+                  </h4>
+                  <p className="text-gray-300 text-xs mt-0.5">
+                    Decoupling approval from execution • Trust memory between parties • Automatic reverse response instead of blind freeze
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2 text-cyan-300 font-mono text-[11px] shrink-0">
+                <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
+                <span>Protected Against Coercion & 180-Day Freezes</span>
+              </div>
+            </div>
           </div>
 
           {/* Action Button */}
