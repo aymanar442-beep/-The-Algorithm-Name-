@@ -19,7 +19,10 @@ let firebaseConfig: any = {
   firestoreDatabaseId: "ai-studio-tradingbotsaas-2c7a2469-09f4-484e-9b37-d1fc4cc5fa19"
 };
 try {
-  const configRaw = fs.readFileSync(path.join(__dirname, 'firebase-applet-config.json'), 'utf8');
+  const cfgPath = fs.existsSync(path.join(process.cwd(), 'firebase-applet-config.json'))
+    ? path.join(process.cwd(), 'firebase-applet-config.json')
+    : path.join(__dirname, 'firebase-applet-config.json');
+  const configRaw = fs.readFileSync(cfgPath, 'utf8');
   firebaseConfig = JSON.parse(configRaw);
 } catch (e) {
   console.warn('Could not read firebase-applet-config.json, using defaults.');
@@ -41,7 +44,7 @@ const db = getFirestore(getApps()[0], firebaseConfig.firestoreDatabaseId);
 const createServer = async () => {
   const app = express();
   const httpServer = createHttpServer(app);
-  const PORT = 3000;
+  const PORT = Number(process.env.PORT) || 3000;
 
   app.use(express.json());
 
@@ -228,9 +231,16 @@ const createServer = async () => {
   });
 
   if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.join(__dirname, 'dist')));
+    const distDir = fs.existsSync(path.join(process.cwd(), 'dist', 'index.html'))
+      ? path.join(process.cwd(), 'dist')
+      : fs.existsSync(path.join(__dirname, 'index.html'))
+        ? __dirname
+        : path.join(__dirname, 'dist');
+
+    console.log(`Serving static files from: ${distDir}`);
+    app.use(express.static(distDir));
     app.get('*', (req, res) => {
-      res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+      res.sendFile(path.join(distDir, 'index.html'));
     });
   } else {
     const viteModule = await eval("import('vite')");

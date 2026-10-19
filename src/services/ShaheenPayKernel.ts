@@ -969,7 +969,7 @@ export class ShaheenMasterCyberSecurityEngine {
         appliedCoreId: 'S-SVD',
         forensicProofSignature: `AIR_GAPPED_HASH_${Date.now()}`,
         isMemoryZeroized: true,
-        message: 'تم تفعيل التدمير الذاتي وتطهير الذاكرة وإسقاط الوثيقة في الدرج السري المشفر.'
+        message: 'Self-destruct activated, memory purged, and document dropped into encrypted secret drawer.'
       };
     }
 
@@ -980,7 +980,7 @@ export class ShaheenMasterCyberSecurityEngine {
           appliedCoreId: 'S-CIP',
           forensicProofSignature: 'CIP_WATERMARK_INJECTED_40MS',
           isMemoryZeroized: false,
-          message: 'تم حقن العلامة المائية الصفرية وحماية السيناريو من التسريب بدقة جنائية.'
+          message: 'Zero-width watermark injected and scenario protected from leakage with forensic accuracy.'
         };
       case 'BIOMETRIC_TELEMETRY':
         return {
@@ -988,7 +988,7 @@ export class ShaheenMasterCyberSecurityEngine {
           appliedCoreId: 'S-CHOS',
           forensicProofSignature: 'CAUSAL_SAFETY_MAINTAINED',
           isMemoryZeroized: false,
-          message: 'النظام مراقب عبر التوأم المعاكس للواقع.'
+          message: 'System monitored via counter-factual twin.'
         };
       case 'FINANCIAL_TRANSACTION':
         return {
@@ -996,7 +996,7 @@ export class ShaheenMasterCyberSecurityEngine {
           appliedCoreId: 'S-IFG',
           forensicProofSignature: '150K_MONTE_CARLO_PASSED',
           isMemoryZeroized: false,
-          message: 'تم تأكيد انعدام المخاطر بنسبة 100% وجاهز للتنفيذ الفوري.'
+          message: '100% zero-risk confirmed and ready for immediate execution.'
         };
       default:
         return {
@@ -1004,7 +1004,7 @@ export class ShaheenMasterCyberSecurityEngine {
           appliedCoreId: 'S-WCM',
           forensicProofSignature: 'MESH_32BYTE_ENCRYPTED',
           isMemoryZeroized: false,
-          message: 'تم بث البيانات عبر شبكة ميزانية مستقلة.'
+          message: 'Data broadcast over independent budget network.'
         };
     }
   }
