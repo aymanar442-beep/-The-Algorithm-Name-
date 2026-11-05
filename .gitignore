@@ -1,0 +1,11 @@
+# Ignore dependencies, build output, local environment files, and credentials.
+node_modules/
+dist/
+.env
+.env.*
+!.env.example
+.firebase/
+service-account*.json
+*service-account*.json
+*.log
+.DS_Store

@@ -1,6 +1,6 @@
 {
-  "name": "Crypto Rich Hub",
-  "description": "The official portal for the Godfather's crypto empire, featuring signals, academy, and bot integration.",
+  "name": "Shaheen Pay",
+  "description": "A prototype web application demonstrating a PayPal-style payment workflow. Payment and risk features are simulations, not a payment processor.",
   "capabilities": [
     "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
   ]
